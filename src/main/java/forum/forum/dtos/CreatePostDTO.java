@@ -1,4 +1,6 @@
 package forum.forum.dtos;
 
-public record CreatePostDTO(String title, String body) {
+import java.util.UUID;
+
+public record CreatePostDTO(String title, String body, UUID user_id) {
 }

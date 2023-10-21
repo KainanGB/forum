@@ -1,5 +1,6 @@
 package forum.forum.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -22,7 +24,7 @@ public class PostsEntity {
   @Id
   @Column(name="post_id",  unique = true, columnDefinition = "BINARY(16)")
   @GeneratedValue(strategy = GenerationType.UUID)
-  private UUID post_id;
+  private UUID postId;
 
   @ManyToOne
   @JoinColumn(name = "user_id")
@@ -38,6 +40,10 @@ public class PostsEntity {
   @Column(name = "body", nullable = false)
   @NotEmpty(message = "username must not be empty.")
   private String body;
+
+  @OneToMany(mappedBy = "posts", cascade = CascadeType.ALL)
+  @JsonIgnore
+  private List<CommentsEntity> comments;
 
   @Column(name = "created_at")
   @CreationTimestamp
