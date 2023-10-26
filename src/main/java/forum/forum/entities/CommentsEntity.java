@@ -10,7 +10,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 
 // TODO: CHECK THIS ANNOTATIONS
@@ -23,9 +22,13 @@ import java.util.UUID;
 public class CommentsEntity {
 
   @Id
-  @Column(name="comment_id",  unique = true, columnDefinition = "BINARY(16)", updatable = false)
-  @GeneratedValue(strategy = GenerationType.UUID)
-  public UUID commentId;
+  @Column(name="comment_id",  unique = true, updatable = false)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  public Long commentId;
+
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  private UsersEntity users;
 
   @ManyToOne
   @JsonIgnore
@@ -50,8 +53,8 @@ public class CommentsEntity {
   @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
   @JoinTable(
           name = "comment_upvotes",
-          joinColumns = @JoinColumn(name = "comment_id", referencedColumnName = "comment_id", unique = true),
-          inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id", unique = true)
+          joinColumns = @JoinColumn(name = "comment_id", referencedColumnName = "comment_id", nullable = false, updatable = false),
+          inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false, updatable = false)
   )
   private List<UsersEntity> upvotes;
 

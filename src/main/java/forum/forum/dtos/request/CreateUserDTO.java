@@ -1,4 +1,4 @@
-package forum.forum.dtos;
+package forum.forum.dtos.request;
 
 
 

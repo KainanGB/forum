@@ -1,17 +1,15 @@
 package forum.forum.controllers;
 
-import forum.forum.dtos.UserDTO;
-import forum.forum.dtos.UpdateUserDTO;
-import forum.forum.dtos.CreateUserDTO;
-import forum.forum.dtos.UserIdDTO;
+import forum.forum.dtos.response.UserDTO;
+import forum.forum.dtos.request.UpdateUserDTO;
+import forum.forum.dtos.request.CreateUserDTO;
 import forum.forum.entities.UsersEntity;
+import forum.forum.mappers.UserMapper;
 import forum.forum.repositories.UsersRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,49 +17,39 @@ import java.util.stream.Collectors;
 public class UsersController {
 
   private final UsersRepository usersRepository;
+  private final UserMapper userMapper;
 
   @GetMapping
   public List<UserDTO> getUsers() {
-    return usersRepository.findAll()
-            .stream()
-            .map(x -> new UserDTO(x.getUserId(), x.getUsername(), x.getEmail(), x.getCreated_at().toString()))
-            .collect(Collectors.toList());
+    return userMapper.UserEntitiesToUserDTOs(usersRepository.findAll());
   }
 
   @GetMapping("/{id}")
-  public UserDTO getUserById(@PathVariable UserDTO dataDTO){
-    UsersEntity user =  usersRepository.findById(dataDTO.user_id()).orElseThrow(() -> new NoSuchElementException("User not found"));
-    return new UserDTO(user.getUserId(), user.getUsername(), user.getEmail(), user.getCreated_at().toString());
+  public UserDTO getUserById(@PathVariable Long id){
+    return userMapper.UserEntityToUserDTO(usersRepository.findById(id).orElseThrow());
   }
 
-  @GetMapping("/me/{user_id}")
-  public UserDTO getUserProfile (@PathVariable UserDTO dataDTO) {
-    UsersEntity user =  usersRepository.findById(dataDTO.user_id()).orElseThrow();
-    return new UserDTO(user.getUserId(), user.getUsername(), user.getEmail(), user.getCreated_at().toString());
+  @GetMapping("/me/{id}")
+  public UserDTO getUserProfile (@PathVariable Long id) {
+    return userMapper.UserEntityToUserDTO(usersRepository.findById(id).orElseThrow());
   }
 
   @PostMapping
   public UserDTO create(@RequestBody CreateUserDTO data) {
-    var user = new UsersEntity();
-    user.setUsername(data.username());
-    user.setPassword(data.password());
-    user.setEmail(data.email());
-    usersRepository.save(user);
-
-    return new UserDTO(user.getUserId(), user.getUsername(), user.getEmail(), user.getCreated_at().toString());
+    UsersEntity user = usersRepository.save(userMapper.CreateUserDTOToUsersEntity(data));
+    return userMapper.UserEntityToUserDTO(user);
   }
 
   @PatchMapping("/{id}")
-  public UserDTO update(@RequestBody UpdateUserDTO data, @PathVariable UUID id) {
-    UsersEntity user =  usersRepository.findById(id).orElseThrow();
+  public UserDTO update(@RequestBody UpdateUserDTO data, @PathVariable Long id) {
+    var user = usersRepository.findById(id).orElseThrow();
     user.setUsername(data.username());
     usersRepository.save(user);
-
-    return new UserDTO(user.getUserId(), user.getUsername(), user.getEmail(), user.getCreated_at().toString());
+    return userMapper.UserEntityToUserDTO(user);
   }
 
   @DeleteMapping("/{id}")
-  public void delete(@PathVariable UUID id){
+  public void delete(@PathVariable Long id){
     usersRepository.deleteById(id);
   }
 }

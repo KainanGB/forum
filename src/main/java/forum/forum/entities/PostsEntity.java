@@ -3,28 +3,26 @@ package forum.forum.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.UUID;
 
 
 @Entity
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "POSTS")
 public class PostsEntity {
 
   @Id
-  @Column(name="post_id",  unique = true, columnDefinition = "BINARY(16)")
-  @GeneratedValue(strategy = GenerationType.UUID)
-  private UUID postId;
+  @Column(name="post_id",  unique = true)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long postId;
 
   @ManyToOne
   @JoinColumn(name = "user_id")

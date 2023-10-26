@@ -12,13 +12,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.awt.print.Book;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.UUID;
 
 
-// TODO: DEIXA DE SER PREGUIÇOCO E FAÇA OS DTOS DOS RETORNAS DA ENTIDADE, VERFICAR TODOS OS MÉTODOS HTTP
 @Entity
 @Getter
 @Setter
@@ -27,9 +24,9 @@ import java.util.UUID;
 public class UsersEntity {
 
     @Id
-    @Column(name = "user_id", unique = true, columnDefinition = "BINARY(16)")
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID userId;
+    @Column(name = "user_id", unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;
 
     @Column(name = "username", nullable = false)
     @NotEmpty(message = "username must not be empty.")
@@ -51,8 +48,12 @@ public class UsersEntity {
     private List<PostsEntity> posts;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "upvotes", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "users", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<CommentsEntity> comments;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "upvotes", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private List<CommentsEntity> upvotes;
 
     @Column(name = "created_at")
     @CreationTimestamp
