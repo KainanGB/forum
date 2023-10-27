@@ -1,4 +1,11 @@
 package forum.forum.dtos.request;
 
-public record UpdateCommentDTO(String body, Long comment_id) {
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
+public record UpdateCommentDTO(
+        @NotNull(message = "comment_id must be provided")
+        Long comment_id,
+        String body
+) {
 }

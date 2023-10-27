@@ -29,18 +29,14 @@ public class UsersEntity {
     private Long userId;
 
     @Column(name = "username", nullable = false)
-    @NotEmpty(message = "username must not be empty.")
-    @Size(max = 4, message = "username must be with 4 characters max.")
     private String username;
 
     @Column(name = "email", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    @NotEmpty(message = "email must not be empty")
     @Email
     private String email;
 
     @Column(name = "password", nullable = false)
-    @NotEmpty(message = "password must not be empty")
     private String password;
 
     @JsonIgnore
