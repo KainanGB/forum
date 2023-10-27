@@ -2,15 +2,17 @@ package forum.forum.controllers;
 
 
 import forum.forum.dtos.request.CreatePostDTO;
+import forum.forum.dtos.request.PostRequestDTO;
 import forum.forum.dtos.response.PostDTO;
 import forum.forum.entities.PostsEntity;
 import forum.forum.services.PostsService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,8 +23,8 @@ public class PostsController {
 
   @GetMapping
   @ResponseStatus(value = HttpStatus.OK)
-  public List<PostDTO> getPosts() {
-    return postsService.getPosts();
+  public Page<PostDTO> getPosts(PostRequestDTO data, @PageableDefault Pageable pageable) {
+    return postsService.getPosts(data, pageable);
   }
 
   @PostMapping

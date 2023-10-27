@@ -1,6 +1,7 @@
 package forum.forum.mappers;
 
 import forum.forum.dtos.request.CreatePostDTO;
+import forum.forum.dtos.request.PostRequestDTO;
 import forum.forum.dtos.response.PostDTO;
 import forum.forum.entities.PostsEntity;
 import org.mapstruct.Mapper;
@@ -19,4 +20,6 @@ public interface PostMapper {
   @Mapping(source = "users.userId", target = "author.user_id")
   PostDTO PostsEntityToPostDTO(PostsEntity data);
   PostsEntity CreatePostDTOToPostsEntity(CreatePostDTO data);
+  @Mapping(source = "post_id", target = "postId")
+  PostsEntity PostRequestDTOToPostsEntity(PostRequestDTO data);
 }

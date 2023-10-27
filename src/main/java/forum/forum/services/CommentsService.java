@@ -13,7 +13,6 @@ import forum.forum.repositories.PostsRepository;
 import forum.forum.repositories.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,11 +27,10 @@ public class CommentsService {
     private final UsersRepository usersRepository;
     private final CommentMapper commentMapper;
 
-    @GetMapping
-    public List<CommentDTO> getComments(@RequestParam Long post_id) {
+    public List<CommentDTO> getComments(@RequestParam Long post_id
+    ) {
         return commentMapper.CommentsEntityToCommentDTO(commentsRepository.findByPostsPostId(post_id));
     }
-    @PostMapping
     public CommentDTO create(@RequestBody CreateCommentDTO data) {
         UsersEntity user = usersRepository.findById(data.user_id()).orElseThrow();
 
@@ -53,9 +51,6 @@ public class CommentsService {
         return commentMapper.CommentsEntityToCommentDTO(commentsRepository.save(comment));
     }
 
-    // TODO: CHECK FOR SAVEANDFLUSH
-    @PostMapping("/{comment_id}/upvotes")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void upvote(@PathVariable Long comment_id, @RequestBody UserDTO dataDTO) {
         CommentsEntity comment = commentsRepository.findById(comment_id).orElseThrow();
         UsersEntity user = usersRepository.findById(dataDTO.user_id()).orElseThrow();
@@ -69,17 +64,12 @@ public class CommentsService {
         };
     }
 
-
-    @PatchMapping
     public CommentDTO update(@RequestBody UpdateCommentDTO data) {
         var comment = commentsRepository.findByCommentIdAndDeletedFalse(data.comment_id()).orElseThrow();
         comment.setBody(data.body());
         return commentMapper.CommentsEntityToCommentDTO(commentsRepository.save(comment));
     }
 
-
-    @DeleteMapping(path = "/{comment_id}")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long comment_id) {
         CommentsEntity parentComment = commentsRepository.findById(comment_id).orElseThrow();
         parentComment.setDeleted(true);

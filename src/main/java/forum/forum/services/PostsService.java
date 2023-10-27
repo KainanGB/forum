@@ -1,19 +1,23 @@
 package forum.forum.services;
 
 import forum.forum.dtos.request.CreatePostDTO;
+import forum.forum.dtos.request.PostRequestDTO;
 import forum.forum.dtos.response.PostDTO;
 import forum.forum.entities.PostsEntity;
 import forum.forum.mappers.PostMapper;
 import forum.forum.repositories.PostsRepository;
 import forum.forum.repositories.UsersRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.List;
+import java.util.NoSuchElementException;
 
 
 @RequiredArgsConstructor
@@ -24,8 +28,15 @@ public class PostsService {
   private final UsersRepository usersRepository;
   private final PostMapper postMapper;
 
-  public List<PostDTO> getPosts() {
-    return postMapper.PostsEntityToPostDTO(postsRepository.findAll());
+  public Page<PostDTO> getPosts(PostRequestDTO data, Pageable pageable) {
+    PostsEntity posts = postMapper.PostRequestDTOToPostsEntity(data);
+    var x = postsRepository.findAll(Example.of(posts), pageable);
+
+    if(!x.hasContent()) {
+      throw new NoSuchElementException();
+    }
+
+    return x.map(postMapper::PostsEntityToPostDTO);
   }
 
   public PostDTO create(@RequestBody CreatePostDTO data) {
