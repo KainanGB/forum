@@ -10,8 +10,7 @@ create table comments (
         body varchar(255),
         primary key (comment_id)
     ) engine=InnoDB DEFAULT CHARSET = utf8;
-   
-   
+
     create table comment_comments (
         child_id bigint not null,
         parent_id bigint not null
@@ -22,8 +21,6 @@ create table comments (
         user_id bigint not null,
         PRIMARY KEY (comment_id, user_id)
     ) engine=InnoDB DEFAULT CHARSET = utf8;
-    
-    
     
     create table posts (
         created_at datetime(6),
