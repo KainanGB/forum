@@ -12,7 +12,6 @@ import forum.forum.repositories.CommentsRepository;
 import forum.forum.repositories.PostsRepository;
 import forum.forum.repositories.UsersRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,17 +50,19 @@ public class CommentsService {
         return commentMapper.CommentsEntityToCommentDTO(commentsRepository.save(comment));
     }
 
+
     public void upvote(@PathVariable Long comment_id, @RequestBody UserDTO dataDTO) {
         CommentsEntity comment = commentsRepository.findById(comment_id).orElseThrow();
         UsersEntity user = usersRepository.findById(dataDTO.user_id()).orElseThrow();
 
-        try{
-            comment.getUpvotes().add(user);
-            commentsRepository.saveAndFlush(comment);
-        } catch (DataIntegrityViolationException err){
+
+        if(comment.getUpvotes().contains(user)) {
             comment.getUpvotes().remove(user);
             commentsRepository.saveAndFlush(comment);
-        };
+        } else {
+            comment.getUpvotes().add(user);
+            commentsRepository.saveAndFlush(comment);
+        }
     }
 
     public CommentDTO update(@RequestBody UpdateCommentDTO data) {

@@ -19,7 +19,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   public ResponseEntity<Object> handleItemNotFoundException(
           NoSuchElementException request
   ){
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(request.getMessage());
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(request.getCause());
   }
 
   @ExceptionHandler(ValidationException.class)

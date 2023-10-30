@@ -48,7 +48,10 @@ public class LoggingAspect {
         CodeSignature signature = (CodeSignature) joinPoint.getSignature();
         var method = signature.getName();
         var calledClass = joinPoint.getTarget().getClass().getSimpleName();
-        var replaceUnsafeValues = result.toString().replaceAll(pattern.toString(), REPLACEMENT);
+        var replaceUnsafeValues = "null";
+        if(result != null) {
+            replaceUnsafeValues = result.toString().replaceAll(pattern.toString(), REPLACEMENT);
+        }
         logger.info("C="+ calledClass + ", M=" + method + ", O=" + replaceUnsafeValues);
     }
 }
