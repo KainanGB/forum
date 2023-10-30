@@ -1,11 +1,8 @@
 package forum.forum.Logger;
 
 
-import lombok.val;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +18,7 @@ public class LoggingAspect {
     private static final String REPLACEMENT = "********";
 
     @Pointcut("@annotation(forum.forum.Logger.Log)")
-    public void logPointCut() {};
+    public void logPointCut() {}
 
     @Before("logPointCut()")
     public void log(JoinPoint joinPoint) {
@@ -44,5 +41,14 @@ public class LoggingAspect {
 
         String formattedParams = stringParams.toString();
         logger.info("C=" + calledClass + ", M=" + method + ", I=" + formattedParams);
-    };
+    }
+
+    @AfterReturning(value = "logPointCut()", returning = "result")
+    public void logReturnValues(JoinPoint joinPoint, Object result) {
+        CodeSignature signature = (CodeSignature) joinPoint.getSignature();
+        var method = signature.getName();
+        var calledClass = joinPoint.getTarget().getClass().getSimpleName();
+        var replaceUnsafeValues = result.toString().replaceAll(pattern.toString(), REPLACEMENT);
+        logger.info("C="+ calledClass + ", M=" + method + ", O=" + replaceUnsafeValues);
+    }
 }
