@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class UsersService {
 
   private final UsersRepository usersRepository;

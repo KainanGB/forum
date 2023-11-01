@@ -19,40 +19,40 @@ public class UsersController {
 
   private final UsersService userService;
 
+  @Log
   @GetMapping
   @ResponseStatus(value = HttpStatus.OK)
-  @Log
   public List<UserDTO> getUsers() {
     return userService.getUsers();
   }
+  @Log
   @GetMapping("/{id}")
   @ResponseStatus(value = HttpStatus.OK)
-  @Log
   public UserDTO getUserById(@PathVariable Long id){
     return userService.getUserById(id);
   }
+  @Log
   @GetMapping("/me/{id}")
   @ResponseStatus(value = HttpStatus.OK)
-  @Log
   public UserDTO getUserProfile (@PathVariable Long id) {
     return userService.getUserProfile(id);
   }
 
+  @Log
   @PostMapping
   @ResponseStatus(value = HttpStatus.CREATED)
-  @Log
   public UserDTO create(@RequestBody @Valid CreateUserDTO data) {
     return userService.create(data);
   }
+  @Log
   @PatchMapping("/{id}")
   @ResponseStatus(value = HttpStatus.OK)
-  @Log
   public UserDTO update(@RequestBody @Valid UpdateUserDTO data, @PathVariable Long id) {
     return userService.update(data, id);
   }
+  @Log
   @DeleteMapping("/{id}")
   @ResponseStatus(value = HttpStatus.NO_CONTENT)
-  @Log
   public void delete(@PathVariable Long id){
     userService.delete(id);
   }

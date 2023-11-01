@@ -13,8 +13,8 @@ import java.util.List;
 
 
 // TODO: CHECK THIS ANNOTATIONS
-@Entity
 @Data
+@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

@@ -22,29 +22,32 @@ public class PostsController {
 
   private final PostsService postsService;
 
+  @Log
   @GetMapping
   @ResponseStatus(value = HttpStatus.OK)
-  @Log
   public Page<PostDTO> getPosts(PostRequestDTO data, @PageableDefault Pageable pageable) {
     return postsService.getPosts(data, pageable);
   }
 
+
+  @Log
   @PostMapping
   @ResponseStatus(value = HttpStatus.CREATED)
-  @Log
   public PostDTO create(@RequestBody @Valid CreatePostDTO data) {
     return postsService.create(data);
   }
+
+
+  @Log
   @PatchMapping("/{id}")
   @ResponseStatus(value = HttpStatus.OK)
-  @Log
   public PostsEntity update(@PathVariable Long id, @RequestBody @Valid CreatePostDTO data) {
    return postsService.update(id, data);
   }
 
+  @Log
   @DeleteMapping("/{id}")
   @ResponseStatus(value = HttpStatus.NO_CONTENT)
-  @Log
   public void delete(@PathVariable Long id) {
     postsService.delete(id);
   }

@@ -19,37 +19,40 @@ import java.util.List;
 public class CommentsController {
 
   private final CommentsService commentsService;
+  @Log
   @GetMapping
   @ResponseStatus(value = HttpStatus.OK)
-  @Log
   public List<CommentDTO> getComments(@RequestParam Long post_id) {
     return commentsService.getComments(post_id);
   }
+  @Log
   @PostMapping
   @ResponseStatus(value = HttpStatus.CREATED)
-  @Log
+
   public CommentDTO create(@RequestBody CreateCommentDTO data) {
     return commentsService.create(data);
   }
 
   // TODO: CHECK FOR SAVEANDFLUSH
+  @Log
   @PostMapping("/{comment_id}/upvotes")
   @ResponseStatus(value = HttpStatus.NO_CONTENT)
-  @Log
   public void upvote(@PathVariable Long comment_id, @RequestBody UserDTO dataDTO) {
     commentsService.upvote(comment_id, dataDTO);
   }
 
+
+  @Log
   @PatchMapping
   @ResponseStatus(value = HttpStatus.OK)
-  @Log
   public CommentDTO update(@RequestBody UpdateCommentDTO data) {
       return commentsService.update(data);
   }
 
+
+  @Log
   @DeleteMapping(path = "/{comment_id}")
   @ResponseStatus(value = HttpStatus.NO_CONTENT)
-  @Log
   public void delete(@PathVariable Long comment_id) {
     commentsService.delete(comment_id);
   }

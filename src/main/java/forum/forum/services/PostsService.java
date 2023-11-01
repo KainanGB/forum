@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.NoSuchElementException;
 
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class PostsService {
 
   private final PostsRepository postsRepository;
