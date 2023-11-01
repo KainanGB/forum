@@ -3,8 +3,8 @@ package forum.forum.dtos.response;
 
 public record UserDTO(
         Long user_id,
-        String username,
         String email,
+        String username,
         String created_at
 ) {
 }
