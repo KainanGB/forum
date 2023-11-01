@@ -1,17 +1,15 @@
 package forum.forum.controllers;
 
 
+import forum.forum.Logger.Log;
 import forum.forum.dtos.request.CreateCommentDTO;
 import forum.forum.dtos.request.UpdateCommentDTO;
 import forum.forum.dtos.response.CommentDTO;
 import forum.forum.dtos.response.UserDTO;
 import forum.forum.services.CommentsService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import forum.forum.Logger.Log;
 
 import java.util.List;
 
@@ -21,7 +19,6 @@ import java.util.List;
 public class CommentsController {
 
   private final CommentsService commentsService;
-  private static final Logger logger = LoggerFactory.getLogger(CommentsController.class);
   @GetMapping
   @ResponseStatus(value = HttpStatus.OK)
   @Log
