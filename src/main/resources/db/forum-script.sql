@@ -37,7 +37,7 @@ create table comments (
         username varchar(4) not null,
         created_at datetime(6),
         user_id bigint not null auto_increment,
-        email varchar(255) not null,
+        email varchar(255) not null unique,
         password varchar(255) not null,
         primary key (user_id)
     ) engine=InnoDB DEFAULT CHARSET = utf8;
