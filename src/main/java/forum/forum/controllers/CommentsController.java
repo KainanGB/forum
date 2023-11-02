@@ -7,6 +7,8 @@ import forum.forum.dtos.request.UpdateCommentDTO;
 import forum.forum.dtos.response.CommentDTO;
 import forum.forum.dtos.response.UserDTO;
 import forum.forum.services.CommentsService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/comments")
+@SecurityRequirement(name = "bearer-key")
+@Tag(name = "Comments", description = "Handle with CRUD for comments")
 public class CommentsController {
 
   private final CommentsService commentsService;

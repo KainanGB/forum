@@ -1,20 +1,24 @@
 package forum.forum.controllers;
 
 import forum.forum.Logger.Log;
-import forum.forum.dtos.response.UserDTO;
-import forum.forum.dtos.request.UpdateUserDTO;
 import forum.forum.dtos.request.CreateUserDTO;
+import forum.forum.dtos.request.UpdateUserDTO;
+import forum.forum.dtos.response.UserDTO;
 import forum.forum.services.UsersService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
+@SecurityRequirement(name = "bearer-key")
+@Tag(name = "Users", description = "Handle with CRUD for users")
 public class UsersController {
 
   private final UsersService userService;

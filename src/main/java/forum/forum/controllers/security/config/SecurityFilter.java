@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 @Component
 @AllArgsConstructor
@@ -24,11 +25,9 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        final boolean isInitialPath = checkInitialPathAction(request);
-
-        if(isInitialPath) {
-             filterChain.doFilter(request, response);
-             return;
+        if(request.getHeader("Authorization") == null){
+            filterChain.doFilter(request, response);
+            return;
         }
 
         final String token = retrieveTokenFromHeader(request);
@@ -43,19 +42,6 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
-
-    public boolean checkInitialPathAction(HttpServletRequest request) {
-        final boolean path = request.getRequestURL()
-            .toString()
-            .contains("auth");
-
-        final boolean creationPath = request.getRequestURL()
-            .toString()
-            .contains("users") && request.getMethod().contains("POST");
-
-        return path || creationPath;
-    }
-
 
     private String retrieveTokenFromHeader(HttpServletRequest request) {
         final String token = request.getHeader("Authorization");

@@ -7,6 +7,8 @@ import forum.forum.dtos.request.PostRequestDTO;
 import forum.forum.dtos.response.PostDTO;
 import forum.forum.entities.PostsEntity;
 import forum.forum.services.PostsService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/posts")
+@SecurityRequirement(name = "bearer-key")
+@Tag(name = "Posts", description = "Handle with CRUD for Posts")
 public class PostsController {
 
   private final PostsService postsService;
