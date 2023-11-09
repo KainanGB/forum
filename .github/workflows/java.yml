@@ -16,6 +16,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
+    - name: Create docker image
+      run: docker build -t forum-api .
+
     - name: Start containers
       run: docker-compose up -d --build
     
