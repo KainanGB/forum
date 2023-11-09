@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+    #########
+    # MySQL #
+    #########
+    mysql:
+        image: mysql:8.0
+        container_name: forum_api.mysql
+        environment:
+            MYSQL_DATABASE: 'forum'
+            MYSQL_PASSWORD: 'root'
+            MYSQL_ROOT_PASSWORD: 'root'
+    ############################################################################
+    # $$ works for special syntax you have to use in health check test command  # for escaping env variables starts with $, ie $$MYSQL_PASSWORD will result # into $MYSQL_PASSWORD, which itself will result into mypassword in this # # concrete example
+    ############################################################################
+        healthcheck:
+                test: mysqladmin ping -h 127.0.0.1 --user=root --password=$$MYSQL_PASSWORD
+                start_period: 5s
+                interval: 5s
+                timeout: 5s
+                retries: 55
+        ports:
+            - '8181:3306'
+        networks:
+            - api-network
+        volumes:
+            - './src/main/resources/db/forum-script.sql:/docker-entrypoint-initdb.d/1.sql'
+    ###################
+    # application api #
+    ###################
+    api:
+        image: forum-api
+        container_name: api
+        ports:
+            - '8082:8080'
+        networks:
+            - api-network
+        depends_on:
+            mysql:
+                condition: service_healthy
+networks:
+    api-network:
+        driver: bridge
+        ipam:
+            config:
+                - subnet: "172.18.0.0/16"
