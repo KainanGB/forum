@@ -48,7 +48,7 @@ public class UsersService {
   }
 
   public void delete(@PathVariable Long id){
-    usersRepository.deleteById(id);
+    usersRepository.deleteById(usersRepository.findById(id).orElseThrow().getUserId());
   }
 
 
