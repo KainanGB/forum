@@ -24,10 +24,7 @@ jobs:
         path: ~/.m2/repository
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
-          ${{ runner.os }}-maven-                  
-      
-    - name: Run the Maven verify phase
-      run: mvn --batch-mode --update-snapshots verify
+          ${{ runner.os }}-maven-
       
     - name: Run test
       run: mvn test
