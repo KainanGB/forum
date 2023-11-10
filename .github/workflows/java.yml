@@ -29,12 +29,13 @@ jobs:
 
     - name: Run package
       run: mvn package -DskipTests
-    
-    # - name: Run test
-    #   run: mvn test
 
     - name: Create docker image
       run: docker build -t forum-api .
 
     - name: Start containers
       run: docker-compose up -d --build
+
+    - name: Run test
+      run: mvn test
+    
