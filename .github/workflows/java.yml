@@ -13,8 +13,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    # - name: Build Java Artifact
-    #   uses: ./.github/workflows/create-java-artifact.yml
+    - name: Build Java Artifact
+      uses: ./.github/workflows/create-java-artifact.yml
       
     # - name: Download a Build Artifact
     #   uses: actions/download-artifact@v2.1.1
