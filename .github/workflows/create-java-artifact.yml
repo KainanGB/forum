@@ -1,8 +1,7 @@
-name: Create Java Artifact
+name: Create-Java-Artifact
 
 on:
   workflow_call:
-
 jobs:
   create-artifact:
     timeout-minutes: 10
