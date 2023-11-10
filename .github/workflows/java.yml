@@ -17,7 +17,6 @@ jobs:
       uses: actions/download-artifact@v2.1.1
       with:
         name: java-package
-        path: .
 
     - name: Create d image
       run: docker build -t forum-api .
