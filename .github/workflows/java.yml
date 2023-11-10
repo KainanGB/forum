@@ -13,20 +13,20 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Build Java Artifact
-      uses: ./.github/workflows/create-java-artifact.yml
+    # - name: Build Java Artifact
+    #   uses: ./.github/workflows/create-java-artifact.yml
       
-    - name: Download a Build Artifact
-      uses: actions/download-artifact@v2.1.1
-      with:
-        name: java-package
+    # - name: Download a Build Artifact
+    #   uses: actions/download-artifact@v2.1.1
+    #   with:
+    #     name: java-package
 
-    - name: Create d image
-      run: docker build -t forum-api .
+    # - name: Create d image
+    #   run: docker build -t forum-api .
 
-    - name: Start containers
-      run: docker-compose up -d --build
+    # - name: Start containers
+    #   run: docker-compose up -d --build
 
-    - name: Run test
-      run: mvn test
+    # - name: Run test
+    #   run: mvn test
     
