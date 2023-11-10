@@ -6,27 +6,27 @@ jobs:
   artefato:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v3
     
-    - name: Setup Java JDK	
-      uses: actions/setup-java@v3.13.0	
-      with:	
+    - name: Setup Java JDK
+      uses: actions/setup-java@v3.13.0
+      with:
         distribution: 'zulu' 	
         java-version: '17'	
 
     # Caching maven dependencies	
-    - name: Cache local Maven repository	
-      uses: actions/cache@v3	
-      with:	
-        path: ~/.m2/repository	
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}	
-        restore-keys: |	
-          ${{ runner.os }}-maven-	
+    - name: Cache local Maven repository
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
 
-    - name: Run package	
-      run: mvn package -DskipTests	
+    - name: Run package
+      run: mvn package -DskipTests
 
-    - name: Upload a Build Artifact	
-      uses: actions/upload-artifact@v3.1.0	
-      with:	
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.0
+      with:
         name: java-package
