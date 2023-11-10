@@ -30,7 +30,7 @@ jobs:
           ${{ runner.os }}-maven-
 
     - name: Run package
-      run: mvn package -Dwaven.test.skip=true
+      run: mvn package -DskipTests
     
     # - name: Run test
     #   run: mvn test
