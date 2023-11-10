@@ -3,7 +3,7 @@ on:
 
 jobs:
 
-  create-artifact:
+  artifact:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
