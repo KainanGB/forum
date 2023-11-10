@@ -5,7 +5,7 @@ on:
 
 jobs:
 
-  build:
+  create-artifact:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
