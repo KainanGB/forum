@@ -16,8 +16,7 @@ jobs:
 
  # Run the build steps from the other workflow file
     - name: Build Java Artifact
-      uses: |
-        ./.github/workflows/create-java-artifact.yml
+      uses: ./.github/workflows/create-java-artifact.yml
       
     - name: Download a Build Artifact
       uses: actions/download-artifact@v2.1.1
