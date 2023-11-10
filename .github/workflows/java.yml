@@ -26,9 +26,5 @@ jobs:
           ${{ runner.os }}-maven-
     - name: Run package
       run: mvn package -DskipTests
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v3.1.0
-      with:
-        name: java-package
     - name: Create docker image
       run: docker build -t forum-api .
