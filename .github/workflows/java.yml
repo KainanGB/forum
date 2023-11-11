@@ -25,6 +25,17 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-maven-
     - name: Run package
-      run: mvn package -DskipTests
-    - name: Create docker image
-      run: docker build -t forum-api .
+      run: |
+        mvn package --f -DskipTests
+        mkdir pkg && cp target/*.jar pkg
+      
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.0
+      with:
+    # Artifact name
+        name: forum
+    # A file, directory or wildcard pattern that describes what to upload
+        path: ./pkg
+
+    # - name: Create docker image
+    #   run: docker build -t forum-api .
