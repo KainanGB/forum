@@ -26,7 +26,7 @@ jobs:
           ${{ runner.os }}-maven-
     - name: Run package
       run: |
-        mvn package --f -DskipTests
+        mvn package -DskipTests
         mkdir pkg && cp target/*.jar pkg
       
     - name: Upload a Build Artifact
