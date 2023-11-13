@@ -1,0 +1,29 @@
+on:
+  workflow_call:
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v2.1.1
+      with:
+        name: java-package
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+      
+    - name: Build and export
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        tags: forum-api:latest
+        outputs: type=docker,dest=/tmp/forum-api.tar
+        
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: forum api image
+        path: /tmp/forum-api.tar
